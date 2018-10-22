@@ -1,6 +1,14 @@
 # i3
 
+[i3 manual](https://i3wm.org/docs/userguide.html#configuring)
+
 Configuration files for the i3 window manager. These config files are also likely to work with `i3-gaps` too.
+
+Applications that should be installed along with i3:
+
+- i3bar, application that renders the status bar
+- i3status, application that generates the data fot i3bar and other status bars
+- i3lock, application to handle screen locking
 
 ## config
 
@@ -11,6 +19,8 @@ cp config ~/.config/i3/config
 ```
 
 ## i3status.conf
+
+[i3status manual](https://i3wm.org/i3status/manpage.html)
 
 i3status contains the configuration for the i3status application. i3status provides a status bar at the top of the screen. This file should be located under `~/.config/i3/i3status.conf`
 

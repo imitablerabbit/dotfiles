@@ -176,9 +176,9 @@ bindsym XF86Sleep exec --no-startup-id systemctl suspend
 bindsym $mod+m move workspace to output right
 
 # Add key bindings for rofi
-bindsym 0xffbe exec --no-startup-id rofi -show window
-bindsym 0xffbf exec --no-startup-id rofi -show run
-bindsym 0xffc0 exec --no-startup-id rofi -show ssh
+bindsym 0xffbe exec --no-startup-id rofi -show window # f1
+bindsym 0xffbf exec --no-startup-id rofi -show run    # f2
+bindsym 0xffc0 exec --no-startup-id rofi -show ssh    # f3
 bindsym $mod+d exec --no-startup-id rofi -show run
 
 # Keybindings for volume
