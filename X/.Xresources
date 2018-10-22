@@ -1,0 +1,39 @@
+! Define some colors
+#define bg #2F343F
+#define bgselected #4C5466
+#define fg #C9CACD
+#define fgselected #FFFFFF
+#define blk #282828
+
+! Formatting URxvt terminal
+URxvt.font: 7x14 
+URxvt.letterSpace: 1
+URxvt.scrollBar: false
+URxvt.background: #2c001e
+URxvt.foreground: white
+
+! Try and fix the slow rendering problem
+URxvt*buffered: false
+
+! Needed to speed up the rendering of fonts
+URxvt.lineSpace: 0
+
+! Formatting rofi (the window manager)
+rofi.columns: 1
+rofi.eh: 1
+rofi.terminal: urxvt
+rofi.fullscreen: true
+rofi.opacity: 95
+rofi.padding: 300
+rofi.bw: 0
+rofi.sidebar-mode: false
+rofi.seperator-style: none
+rofi.hide-scrollbar: true
+rofi.line-margin: 5
+
+! rofi colouring
+rofi.color-enabled: true
+rofi.color-window: bg, blk, blk
+rofi.color-normal: bg, fg, bg, bgselected, fgselected
+rofi.color-active: bg, fg, bg, bgselected, fgselected
+rofi.color-urgent: bg, fg, bg, bgselected, fgselected
