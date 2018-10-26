@@ -14,7 +14,7 @@ This is called when a new login shell is created. It sources the `.bashrc` file 
 
 Bash runs the following when a login shell is created.
 
-/etc/profile
-~/.bash_profile
-~/.bash_login
-~/.profile
+- /etc/profile
+- ~/.bash_profile
+- ~/.bash_login
+- ~/.profile
