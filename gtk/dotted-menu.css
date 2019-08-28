@@ -1,0 +1,26 @@
+terminal-window box * {
+  font-family: "DejaVu Sans Mono", monospace;
+  color: #839496;
+  border: none;
+  box-shadow: none;
+}
+
+terminal-window box menubar {
+  background: #002B36;
+  padding: 0px 20px;	
+}
+
+terminal-window > box > menubar > menuitem {
+  padding: 7px;
+  border: 1px dashed #839496;
+  border-left: none;
+  border-top: none;
+}
+
+terminal-window > box > menubar > menuitem:last-child {
+  border-left: 1px dashed #839496;
+}
+
+vte-terminal {
+  padding: 20px 20px;
+}
