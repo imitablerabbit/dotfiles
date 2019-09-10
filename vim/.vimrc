@@ -12,6 +12,9 @@ source ~/.vim/lightline.vim
 " Load the fzf config file
 source ~/.vim/fzf.vim
 
+" Load the key remappings
+source ~/.vim/mappings.vim
+
 
 
 " Set the colorscheme to use solarized dark
@@ -51,28 +54,5 @@ set autoindent
 set splitbelow
 set splitright
 
-
-
-" Open a new tab with ctrl+t
-nnoremap <C-t> :tabnew<cr>
-
-" Use fzf to find a file with ctrl+n
-nnoremap <C-n> :Files<cr>
-
-" Remap redo to U
-nnoremap U <c-r>
-
-" Map W to w
-command! W w
-command! WQ wq
-command! Wq wq
-command! Q q
-
-" Remap ; to : in normal mode
-nnoremap ; :
-
-" Open NERDTree when crtl+\ is pressed
-nnoremap <C-\> :NERDTreeToggle<cr>
-
-" Use just a single leader character to start easymotion
-map <Leader> <Plug>(easymotion-prefix)
+" Open all folds by default
+set foldlevel=99
