@@ -169,5 +169,13 @@ func (chars *Chars) CopyRunes(dest []rune) {
 	for idx, b := range chars.slice[:len(dest)] {
 		dest[idx] = rune(b)
 	}
-	return
+}
+
+func (chars *Chars) Prepend(prefix string) {
+	if runes := chars.optionalRunes(); runes != nil {
+		runes = append([]rune(prefix), runes...)
+		chars.slice = *(*[]byte)(unsafe.Pointer(&runes))
+	} else {
+		chars.slice = append([]byte(prefix), chars.slice...)
+	}
 }

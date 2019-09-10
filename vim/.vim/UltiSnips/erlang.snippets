@@ -1,0 +1,45 @@
+# Module attribute snippet
+snippet mod "module" b
+-module(${1:`!p
+import os
+snip.rv = os.path.splitext(fn)[0]
+`}).
+endsnippet
+
+# Compile options snippet
+snippet comp "compile" b
+-compile([${1:export_all}]).
+endsnippet
+
+# spec snippet
+snippet -spec "function spec" bA
+-spec ${1:function}(${2:var_types}) ->
+	${3:return_type}.
+endsnippet
+
+# Function expansion snippet
+snippet func "function" bA
+${1:function}(${3:arguments}) ->
+	${VISUAL:ok.}
+endsnippet
+
+# Case of snippet
+snippet case "case of"
+case ${1:condition()} of
+	${2:pattern} ->
+		${VISUAL:expression()}
+end
+endsnippet
+
+# try catch snippet
+snippet try "try catch"
+try ${1:condition()} of
+	${2:pattern} ->
+		${VISUAL:expression()}
+catch
+	${3:E:R} ->
+		${4:expression()}
+${5:after ${6:5000} ->
+	expression()}
+end
+endsnippet

@@ -207,13 +207,13 @@ func (m *Matcher) scan(request MatchRequest) (*Merger, bool) {
 			return nil, wait()
 		}
 
-		if time.Now().Sub(startedAt) > progressMinDuration {
+		if time.Since(startedAt) > progressMinDuration {
 			m.eventBox.Set(EvtSearchProgress, float32(count)/float32(numChunks))
 		}
 	}
 
 	partialResults := make([][]Result, numSlices)
-	for _ = range slices {
+	for range slices {
 		partialResult := <-resultChan
 		partialResults[partialResult.index] = partialResult.matches
 	}
@@ -230,5 +230,5 @@ func (m *Matcher) Reset(chunks []*Chunk, patternRunes []rune, cancel bool, final
 	} else {
 		event = reqRetry
 	}
-	m.reqBox.Set(event, MatchRequest{chunks, pattern, final, sort})
+	m.reqBox.Set(event, MatchRequest{chunks, pattern, final, sort && pattern.sortable})
 }

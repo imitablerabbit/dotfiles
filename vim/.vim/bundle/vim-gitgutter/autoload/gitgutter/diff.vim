@@ -4,7 +4,7 @@ let s:hunk_re = '^@@ -\(\d\+\),\?\(\d*\) +\(\d\+\),\?\(\d*\) @@'
 
 " True for git v1.7.2+.
 function! s:git_supports_command_line_config_override() abort
-  call system(g:gitgutter_git_executable.' -c foo.bar=baz --version')
+  call system(g:gitgutter_git_executable.' '.g:gitgutter_git_args.' -c foo.bar=baz --version')
   return !v:shell_error
 endfunction
 
@@ -13,6 +13,7 @@ let s:c_flag = s:git_supports_command_line_config_override()
 
 let s:temp_from = tempname()
 let s:temp_buffer = tempname()
+let s:counter = 0
 
 " Returns a diff of the buffer against the index or the working tree.
 "
@@ -67,9 +68,9 @@ let s:temp_buffer = tempname()
 "                      the hunk headers (@@ -x,y +m,n @@); only possible if
 "                      grep is available.
 function! gitgutter#diff#run_diff(bufnr, from, preserve_full_diff) abort
-  while gitgutter#utility#repo_path(a:bufnr, 0) == -1
-    sleep 5m
-  endwhile
+  if gitgutter#utility#repo_path(a:bufnr, 0) == -1
+    throw 'gitgutter author fail'
+  endif
 
   if gitgutter#utility#repo_path(a:bufnr, 0) == -2
     throw 'gitgutter not tracked'
@@ -89,6 +90,11 @@ function! gitgutter#diff#run_diff(bufnr, from, preserve_full_diff) abort
   " git-diff).
   let buff_file = s:temp_buffer.'.'.a:bufnr
 
+  " Add a counter to avoid a similar race with two quick writes of the same buffer.
+  " Use a modulus greater than a maximum reasonable number of visible buffers.
+  let s:counter = (s:counter + 1) % 20
+  let buff_file .= '.'.s:counter
+
   let extension = gitgutter#utility#extension(a:bufnr)
   if !empty(extension)
     let buff_file .= '.'.extension
@@ -104,20 +110,23 @@ function! gitgutter#diff#run_diff(bufnr, from, preserve_full_diff) abort
     " reading it (with git-diff).
     let from_file = s:temp_from.'.'.a:bufnr
 
+    " Add a counter to avoid a similar race with two quick writes of the same buffer.
+    let from_file .= '.'.s:counter
+
     if !empty(extension)
       let from_file .= '.'.extension
     endif
 
     " Write file from index to temporary file.
     let index_name = g:gitgutter_diff_base.':'.gitgutter#utility#repo_path(a:bufnr, 1)
-    let cmd .= g:gitgutter_git_executable.' --no-pager show '.index_name.' > '.from_file.' && '
+    let cmd .= g:gitgutter_git_executable.' '.g:gitgutter_git_args.' --no-pager show '.index_name.' > '.from_file.' && '
 
   elseif a:from ==# 'working_tree'
     let from_file = gitgutter#utility#repo_path(a:bufnr, 1)
   endif
 
   " Call git-diff.
-  let cmd .= g:gitgutter_git_executable.' --no-pager '.g:gitgutter_git_args
+  let cmd .= g:gitgutter_git_executable.' '.g:gitgutter_git_args.' --no-pager '.g:gitgutter_git_args
   if s:c_flag
     let cmd .= ' -c "diff.autorefreshindex=0"'
     let cmd .= ' -c "diff.noprefix=false"'
@@ -364,6 +373,13 @@ endfunction
 
 function! s:write_buffer(bufnr, file)
   let bufcontents = getbufline(a:bufnr, 1, '$')
+
+  if bufcontents == [''] && line2byte(1) == -1
+    " Special case: completely empty buffer.
+    " A nearly empty buffer of only a newline has line2byte(1) == 1.
+    call writefile([], a:file)
+    return
+  endif
 
   if getbufvar(a:bufnr, '&fileformat') ==# 'dos'
     call map(bufcontents, 'v:val."\r"')

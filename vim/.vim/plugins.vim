@@ -9,10 +9,9 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'easymotion/vim-easymotion'
-"Plugin 'mileszs/ack.vim'
-"Plugin 'terryma/vim-multiple-cursors'
-"Plugin 'tpope/vim-surround'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'SirVer/ultisnips'
 
 call vundle#end()
 

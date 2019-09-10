@@ -2,16 +2,18 @@
 " Filename: autoload/lightline.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2018/09/17 12:00:00.
+" Last Change: 2019/08/20 14:00:00.
 " =============================================================================
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:_ = 1
+let s:_ = 1 " 1: uninitialized, 2: disabled
 
 function! lightline#update() abort
+  if &buftype ==# 'popup' | return | endif
   if s:_
+    if s:_ == 2 | return | endif
     call lightline#init()
     call lightline#colorscheme()
   endif
@@ -19,7 +21,7 @@ function! lightline#update() abort
     return
   endif
   let w = winnr()
-  let s = winnr('$') == 1 ? [lightline#statusline(0)] : [lightline#statusline(0), lightline#statusline(1)]
+  let s = winnr('$') == 1 && w > 0 ? [lightline#statusline(0)] : [lightline#statusline(0), lightline#statusline(1)]
   for n in range(1, winnr('$'))
     call setwinvar(n, '&statusline', s[n!=w])
     call setwinvar(n, 'lightline', n!=w)
@@ -40,14 +42,14 @@ function! lightline#update_disable() abort
 endfunction
 
 function! lightline#enable() abort
-  call lightline#colorscheme()
+  let s:_ = 1
   call lightline#update()
-  if s:lightline.enable.tabline
-    set tabline=%!lightline#tabline()
-  endif
   augroup lightline
     autocmd!
-    autocmd WinEnter,BufWinEnter,FileType,SessionLoadPost * call lightline#update()
+    autocmd WinEnter,BufEnter,SessionLoadPost * call lightline#update()
+    if !has('patch-8.1.1715')
+      autocmd FileType qf call lightline#update()
+    endif
     autocmd SessionLoadPost * call lightline#highlight()
     autocmd ColorScheme * if !has('vim_starting') || expand('<amatch>') !=# 'macvim'
           \ | call lightline#update() | call lightline#highlight() | endif
@@ -74,6 +76,7 @@ function! lightline#disable() abort
     autocmd!
     autocmd WinEnter * call lightline#update_disable()
   augroup END
+  let s:_ = 2
 endfunction
 
 function! lightline#toggle() abort
