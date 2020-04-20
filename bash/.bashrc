@@ -5,6 +5,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Control how the bash history can be seen
+HISTSIZE=5000
+HISTCONTROL=ignoreboth
+
 # Variable exports
 export PATH="$PATH:/home/imitablerabbit/bin"
 export PATH="$PATH:/home/imitablerabbit/bin/go/bin"
@@ -18,6 +22,8 @@ export GOPATH="/home/imitablerabbit/go"
 # Aliases
 alias ls='ls --color=auto'
 alias urxvt='urxvt -lsp 1'
+alias json='python -mjson.tool'
+alias openip='sudo iptables -F input'
 
 # Other
 PS1='[\u@\h \W]\$ '
@@ -27,6 +33,7 @@ xrdb ~/.Xresources
 
 # Set keyboard layout to uk
 setxkbmap -layout gb
+#setxkbmap us
 
 # Start the ssh agent if it is not already started
 SSH_ENV="$HOME/.ssh/environment"

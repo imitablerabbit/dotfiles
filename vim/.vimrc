@@ -12,6 +12,9 @@ source ~/.vim/lightline.vim
 " Load the fzf config file
 source ~/.vim/fzf.vim
 
+" Load the ctrlp settings
+source ~/.vim/ctrlp.vim
+
 " Load the key remappings
 source ~/.vim/mappings.vim
 
@@ -40,6 +43,7 @@ set mouse=a
 " Change the default search functionality
 set hlsearch
 set incsearch
+set smartcase
 
 " Better tab completion in console mode
 set wildmenu
@@ -56,3 +60,18 @@ set splitright
 
 " Open all folds by default
 set foldlevel=99
+
+" Show the invisible characters when list is set
+set list
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<,
+
+" Show the column 100 and whenever the number of characters goes over it.
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%101v./
+
+" Highlight certain words whenever they appear in the text.
+highlight ToDo ctermbg=green ctermfg=white
+2match ToDo /\ctodo/
+highlight Note ctermbg=blue ctermfg=white
+3match Note /\cnote/
+

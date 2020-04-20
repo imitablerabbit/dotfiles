@@ -12,6 +12,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'SirVer/ultisnips'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 call vundle#end()
 
