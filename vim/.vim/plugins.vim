@@ -13,6 +13,8 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'SirVer/ultisnips'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/limelight.vim'
+Plugin 'junegunn/goyo.vim'
 
 call vundle#end()
 
